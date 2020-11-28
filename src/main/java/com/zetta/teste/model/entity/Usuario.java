@@ -1,8 +1,10 @@
 package com.zetta.teste.model.entity;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -16,8 +18,11 @@ public class Usuario extends Pessoa {
 
 	private static final long serialVersionUID = -391428602278473239L;
 
-	@ManyToOne
+	@ManyToOne(optional = false)
 	private Cargo cargo;
+
+	@Column(nullable = false)
+	private LocalDate dataCadastro;
 
 	@JsonIgnore
 	@ManyToMany
@@ -42,6 +47,14 @@ public class Usuario extends Pessoa {
 
 	public void setPerfis(List<Perfil> perfis) {
 		this.perfis = perfis;
+	}
+
+	public LocalDate getDataCadastro() {
+		return dataCadastro;
+	}
+
+	public void setDataCadastro(LocalDate dataCadastro) {
+		this.dataCadastro = dataCadastro;
 	}
 
 }

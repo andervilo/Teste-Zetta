@@ -2,22 +2,28 @@ package com.zetta.teste.model.entity;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.MappedSuperclass;
 
 import com.zetta.teste.arquitetura.entity.BaseEntity;
 import com.zetta.teste.enumeration.Sexo;
 
+@MappedSuperclass
 public abstract class Pessoa extends BaseEntity {
 
 	private static final long serialVersionUID = 3177958610291783762L;
 
+	@Column(nullable = false)
 	private String nome;
 
+	@Column(nullable = false)
 	private String cpf;
 
 	private LocalDate dataNascimento;
 
+	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Sexo sexo;
 
