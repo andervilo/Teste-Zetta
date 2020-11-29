@@ -1,6 +1,7 @@
 package com.zetta.teste.model.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -13,7 +14,7 @@ import com.zetta.teste.enumeration.Sexo;
 
 import io.swagger.annotations.ApiModelProperty;
 
-public class UsuarioInputDTO implements IEntityDTO{
+public class UsuarioInputDTO implements IEntityDTO {
 
 	private static final long serialVersionUID = 749754216395872682L;
 
@@ -34,7 +35,6 @@ public class UsuarioInputDTO implements IEntityDTO{
 	private String cpf;
 
 	@ApiModelProperty(position = 4, required = true, example = "M-Masculino/F-Feminino")
-	@NotBlank(message = "Campo sexo é obrigatório!")
 	@NotNull(message = "Campo sexo é obrigatório!")
 	private Sexo sexo;
 
@@ -45,6 +45,9 @@ public class UsuarioInputDTO implements IEntityDTO{
 	@ApiModelProperty(position = 6, required = true)
 	@NotNull(message = "Campo cargoId é obrigatório!")
 	private Long cargoId;
+
+	@ApiModelProperty(position = 7)
+	private List<PerfilOutputDTO> perfis;
 
 	public UsuarioInputDTO() {
 
@@ -96,6 +99,14 @@ public class UsuarioInputDTO implements IEntityDTO{
 
 	public void setCargoId(Long cargoId) {
 		this.cargoId = cargoId;
+	}
+
+	public List<PerfilOutputDTO> getPerfis() {
+		return perfis;
+	}
+
+	public void setPerfis(List<PerfilOutputDTO> perfis) {
+		this.perfis = perfis;
 	}
 
 }

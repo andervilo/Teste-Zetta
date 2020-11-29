@@ -18,7 +18,7 @@ public abstract class Pessoa extends BaseEntity {
 	@Column(nullable = false)
 	private String nome;
 
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private String cpf;
 
 	private LocalDate dataNascimento;

@@ -50,7 +50,6 @@ public class GenericServiceimpl<E extends BaseEntity, R extends JpaRepository<E,
         try {
         	repository.deleteById(id);			
 			return true;
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return false;
         }

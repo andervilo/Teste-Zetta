@@ -1,13 +1,14 @@
 package com.zetta.teste.model.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import com.zetta.teste.arquitetura.dto.IEntityDTO;
 import com.zetta.teste.enumeration.Sexo;
 
 import io.swagger.annotations.ApiModelProperty;
 
-public class UsuarioOutputDTO implements IEntityDTO{
+public class UsuarioOutputDTO implements IEntityDTO {
 
 	private static final long serialVersionUID = 749754216395872682L;
 
@@ -28,6 +29,9 @@ public class UsuarioOutputDTO implements IEntityDTO{
 
 	@ApiModelProperty(position = 6)
 	private String cargoNome;
+
+	@ApiModelProperty(position = 7)
+	private List<PerfilOutputDTO> perfis;
 
 	public UsuarioOutputDTO() {
 
@@ -79,6 +83,14 @@ public class UsuarioOutputDTO implements IEntityDTO{
 
 	public void setCargoNome(String cargoNome) {
 		this.cargoNome = cargoNome;
+	}
+
+	public List<PerfilOutputDTO> getPerfis() {
+		return perfis;
+	}
+
+	public void setPerfis(List<PerfilOutputDTO> perfis) {
+		this.perfis = perfis;
 	}
 
 }

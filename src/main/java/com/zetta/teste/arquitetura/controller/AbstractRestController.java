@@ -10,12 +10,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.zetta.teste.arquitetura.entity.BaseEntity;
@@ -43,10 +47,10 @@ public abstract class AbstractRestController<E extends BaseEntity, S extends Gen
 	@ApiOperation(value = "Obter por ID.")
 	@Override
 	public ResponseEntity<?> showById(@PathVariable Long id) {
-		E entity = (E) service.findById(id);
-		if (entity == null) {
+		if (!service.getRepository().existsById(id)) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Recurso não encontrado!");
 		}
+		E entity = (E) service.findById(id);
 		return (ResponseEntity<E>) ResponseEntity.ok().body(entity);
 	}
 
@@ -91,23 +95,39 @@ public abstract class AbstractRestController<E extends BaseEntity, S extends Gen
 	@DeleteMapping("/{id}")
 	@ApiOperation(value = "Excluir.")
 	@Override
-	public ResponseEntity<Map<String, String>> delete(@PathVariable Long id) {
-		Map<String, String> map = new HashMap<String, String>();
+	public ResponseEntity<HttpStatus> delete(@PathVariable Long id) {
+		
 		if (!service.getRepository().existsById(id)) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Recurso não encontrado!");
 		}
-
-		try {
-			service.delete(id);
-		} catch (Exception e) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+		
+		if(!service.delete(id)) {
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro com o Servidor");
 		}
-		map.put("message", "Recurso excuido!");
-		return ResponseEntity.ok((new HashMap<String, String>()));
+		
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	public S getService() {
 		return service;
+	}
+	
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public Map<String, Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+		Map<String, Map<String, String>> errors = new HashMap<>();
+		Map<String, String> errorsBody = new HashMap<>();
+
+		ex.getBindingResult().getAllErrors().forEach((error) -> {
+
+			String fieldName = ((FieldError) error).getField();
+
+			String errorMessage = error.getDefaultMessage();
+
+			errorsBody.put(fieldName, errorMessage);
+		});
+		errors.put("fieldErrors", errorsBody);
+		return errors;
 	}
 
 }

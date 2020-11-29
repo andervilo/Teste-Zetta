@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zetta.teste.arquitetura.entity.BaseEntity;
@@ -14,7 +16,9 @@ public class Perfil extends BaseEntity {
 
 	private static final long serialVersionUID = 1315602694749480017L;
 
-	@Column(unique = true)
+	@Column(unique = true, nullable = false)
+	@NotNull(message = "Campo NOME é obrigatório")
+	@NotBlank(message = "Campo NOME é obrigatório")
 	private String nome;
 
 	@JsonIgnore
