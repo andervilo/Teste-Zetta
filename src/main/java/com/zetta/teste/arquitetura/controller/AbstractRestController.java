@@ -24,6 +24,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.zetta.teste.arquitetura.entity.BaseEntity;
 import com.zetta.teste.arquitetura.service.GenericService;
+import com.zetta.teste.utils.UtilsExceptionMessage;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -48,7 +49,7 @@ public abstract class AbstractRestController<E extends BaseEntity, S extends Gen
 	@Override
 	public ResponseEntity<?> showById(@PathVariable Long id) {
 		if (!service.getRepository().existsById(id)) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Recurso não encontrado!");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, UtilsExceptionMessage.NOT_FOUND_ERROR);
 		}
 		E entity = (E) service.findById(id);
 		return (ResponseEntity<E>) ResponseEntity.ok().body(entity);
@@ -59,15 +60,11 @@ public abstract class AbstractRestController<E extends BaseEntity, S extends Gen
 	@ApiOperation(value = "Criar.")
 	@Override
 	public ResponseEntity<E> create(@Valid @RequestBody E object) {
-
-		if (object == null) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Requisição feita com objeto nulo!");
-		}
-
+		
 		E entity = (E) service.create(object);
 
 		if (entity == null) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não foi possível executar esta operação!");
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, UtilsExceptionMessage.SERVER_ERROR);
 		}
 
 		return ResponseEntity.ok().body(entity);
@@ -78,14 +75,14 @@ public abstract class AbstractRestController<E extends BaseEntity, S extends Gen
 	@ApiOperation(value = "Alterar.")
 	@Override
 	public ResponseEntity<E> update(Long id, @Valid E object) {
-		if (object == null) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Requisição feita com objeto nulo!");
+		if (!service.getRepository().existsById(id)) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, UtilsExceptionMessage.NOT_FOUND_ERROR);
 		}
 
 		E entity = (E) service.update(id, object);
 
 		if (entity == null) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não foi possível executar esta operação!");
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, UtilsExceptionMessage.SERVER_ERROR);
 		}
 
 		return ResponseEntity.ok().body(entity);
@@ -98,11 +95,11 @@ public abstract class AbstractRestController<E extends BaseEntity, S extends Gen
 	public ResponseEntity<HttpStatus> delete(@PathVariable Long id) {
 		
 		if (!service.getRepository().existsById(id)) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Recurso não encontrado!");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, UtilsExceptionMessage.NOT_FOUND_ERROR);
 		}
 		
 		if(!service.delete(id)) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro com o Servidor");
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, UtilsExceptionMessage.SERVER_ERROR);
 		}
 		
 		return new ResponseEntity<>(HttpStatus.OK);

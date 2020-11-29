@@ -37,6 +37,7 @@ import com.zetta.teste.model.dto.UsuarioInputDTO;
 import com.zetta.teste.model.dto.UsuarioOutputDTO;
 import com.zetta.teste.model.entity.Usuario;
 import com.zetta.teste.service.UsuarioService;
+import com.zetta.teste.utils.UtilsExceptionMessage;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -64,7 +65,7 @@ public class UsuarioController implements IRestController<UsuarioInputDTO> {
 	@ApiOperation(value = "Obter por ID.")
 	public ResponseEntity<UsuarioOutputDTO> showById(@PathVariable Long id) {
 		if (!usuarioService.getRepository().existsById(id)) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Recurso não encontrado");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, UtilsExceptionMessage.NOT_FOUND_ERROR);
 		}
 
 		Usuario usuario = usuarioService.findById(id);
@@ -82,7 +83,7 @@ public class UsuarioController implements IRestController<UsuarioInputDTO> {
 		usuario = usuarioService.create(usuario);
 
 		if (usuario == null) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro com o Servidor!");
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, UtilsExceptionMessage.SERVER_ERROR);
 		}
 
 		UsuarioOutputDTO suarioOutputDTO = mapper.map(usuario, UsuarioOutputDTO.class);
@@ -95,7 +96,7 @@ public class UsuarioController implements IRestController<UsuarioInputDTO> {
 	public ResponseEntity<UsuarioOutputDTO> update(@PathVariable Long id,
 			@Valid @RequestBody UsuarioInputDTO usuarioInputDTO) {
 		if (!usuarioService.getRepository().existsById(id)) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Recurso não encontrado");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, UtilsExceptionMessage.NOT_FOUND_ERROR);
 		}
 
 		Usuario usuarioToUpdate = usuarioService.findById(id);
@@ -111,7 +112,7 @@ public class UsuarioController implements IRestController<UsuarioInputDTO> {
 		usuario = usuarioService.update(id, usuario);
 
 		if (usuario == null) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro com o Servidor!");
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, UtilsExceptionMessage.SERVER_ERROR);
 		}
 
 		UsuarioOutputDTO usuarioOutputDTO = mapper.map(usuario, UsuarioOutputDTO.class);
@@ -124,11 +125,11 @@ public class UsuarioController implements IRestController<UsuarioInputDTO> {
 	@ApiOperation(value = "Excluir.")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 		if (!usuarioService.getRepository().existsById(id)) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Recurso não encontrado");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, UtilsExceptionMessage.NOT_FOUND_ERROR);
 		}
 
 		if (!usuarioService.delete(id)) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro com o Servidor!");
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, UtilsExceptionMessage.SERVER_ERROR);
 		}
 
 		return new ResponseEntity<>(HttpStatus.OK);

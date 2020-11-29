@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.zetta.teste.arquitetura.service.GenericServiceimpl;
 import com.zetta.teste.model.entity.Cargo;
 import com.zetta.teste.repository.CargoRepository;
+import com.zetta.teste.utils.UtilsExceptionMessage;
 
 @Service
 public class CargoService extends GenericServiceimpl<Cargo, CargoRepository>{
@@ -21,7 +22,7 @@ public class CargoService extends GenericServiceimpl<Cargo, CargoRepository>{
 	@Override
 	public Cargo create(@Valid @RequestBody Cargo cargo) {
 		if(cargoRepository.existsByNome(cargo.getNome())) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cargo já existe!");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, UtilsExceptionMessage.CARGO_EXISTENTE_ERROR);
 		}
 		return super.create(cargo);
 	}

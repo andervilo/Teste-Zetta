@@ -12,6 +12,7 @@ import com.zetta.teste.arquitetura.service.GenericServiceimpl;
 import com.zetta.teste.model.entity.Cargo;
 import com.zetta.teste.model.entity.Usuario;
 import com.zetta.teste.repository.UsuarioRepository;
+import com.zetta.teste.utils.UtilsExceptionMessage;
 
 @Service
 public class UsuarioService extends GenericServiceimpl<Usuario, UsuarioRepository>{
@@ -22,7 +23,7 @@ public class UsuarioService extends GenericServiceimpl<Usuario, UsuarioRepositor
 	@Override
 	public Usuario create(@Valid @RequestBody Usuario usuario) {
 		if(usuarioRepository.existsByCpf(usuario.getCpf())) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "CPF já em uso!");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, UtilsExceptionMessage.CPF_EXISTENTE_ERROR);
 		}
 		return super.create(usuario);
 	}

@@ -11,6 +11,7 @@ import com.zetta.teste.arquitetura.controller.AbstractRestController;
 import com.zetta.teste.model.entity.Cargo;
 import com.zetta.teste.model.entity.Perfil;
 import com.zetta.teste.service.PerfilService;
+import com.zetta.teste.utils.UtilsExceptionMessage;
 
 import io.swagger.annotations.Api;
 
@@ -26,11 +27,11 @@ public class PerfilController extends AbstractRestController<Perfil, PerfilServi
 	public ResponseEntity<HttpStatus> delete(Long id) {
 		
 		if(!perfilService.getRepository().existsById(id)) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Recurso não encontrado!");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, UtilsExceptionMessage.NOT_FOUND_ERROR);
 		}
 		
 		if(perfilService.countUsuariossByPerfil(id) > 0) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Perfil possui Usuários relacionados e não pode ser excluido!");
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, UtilsExceptionMessage.PERFIL_POSSUI_USUARIO_ERROR);
 		}
 		return super.delete(id);
 	}

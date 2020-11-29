@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.zetta.teste.arquitetura.service.GenericServiceimpl;
 import com.zetta.teste.model.entity.Perfil;
 import com.zetta.teste.repository.PerfilRepository;
+import com.zetta.teste.utils.UtilsExceptionMessage;
 
 @Service
 public class PerfilService extends GenericServiceimpl<Perfil, PerfilRepository>{
@@ -20,7 +21,7 @@ public class PerfilService extends GenericServiceimpl<Perfil, PerfilRepository>{
 	@Override
 	public Perfil create(@Valid @RequestBody Perfil perfil) {
 		if(perfilRepository.existsByNome(perfil.getNome())) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Perfil já existe!");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, UtilsExceptionMessage.PERFIL_EXISTENTE_ERROR);
 		}
 		return super.create(perfil);
 	}

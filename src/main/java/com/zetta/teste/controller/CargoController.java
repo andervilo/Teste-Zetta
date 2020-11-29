@@ -11,6 +11,7 @@ import com.zetta.teste.arquitetura.controller.AbstractRestController;
 import com.zetta.teste.model.entity.Cargo;
 import com.zetta.teste.service.CargoService;
 import com.zetta.teste.service.UsuarioService;
+import com.zetta.teste.utils.UtilsExceptionMessage;
 
 import io.swagger.annotations.Api;
 
@@ -30,11 +31,11 @@ public class CargoController extends AbstractRestController<Cargo, CargoService>
 		Cargo cargo = cargoService.findById(id);
 		
 		if(cargo == null) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Recurso não encontrado!");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, UtilsExceptionMessage.NOT_FOUND_ERROR);
 		}
 		
 		if(usuarioService.countByCargo(cargo) > 0) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Cargo possui Usuários relacionados e não pode ser excluido!");
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, UtilsExceptionMessage.CARGO_POSSUI_USUARIO_ERROR);
 		}
 		return super.delete(id);
 	}

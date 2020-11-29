@@ -21,7 +21,7 @@ public class GenericServiceimpl<E extends BaseEntity, R extends JpaRepository<E,
 	@Override
 	public E findById(Long id) {
 		try {
-			return repository.getOne(id);
+			return repository.findById(id).get();
 		}  catch (Exception e) {
 			return null;
 		}
