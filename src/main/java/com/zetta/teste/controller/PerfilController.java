@@ -3,18 +3,19 @@ package com.zetta.teste.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.zetta.teste.arquitetura.controller.AbstractRestController;
-import com.zetta.teste.model.entity.Cargo;
 import com.zetta.teste.model.entity.Perfil;
 import com.zetta.teste.service.PerfilService;
 import com.zetta.teste.utils.UtilsExceptionMessage;
 
 import io.swagger.annotations.Api;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/perfis-usuarios")
 @Api(tags = "Perfis de Usuários")
