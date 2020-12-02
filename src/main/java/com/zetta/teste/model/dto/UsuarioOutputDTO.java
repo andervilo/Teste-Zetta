@@ -3,6 +3,7 @@ package com.zetta.teste.model.dto;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.zetta.teste.arquitetura.dto.IEntityDTO;
 import com.zetta.teste.enumeration.Sexo;
 
@@ -24,6 +25,7 @@ public class UsuarioOutputDTO implements IEntityDTO {
 	@ApiModelProperty(position = 4)
 	private Sexo sexo;
 
+	//@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	@ApiModelProperty(position = 5)
 	private LocalDate dataNascimento;
 

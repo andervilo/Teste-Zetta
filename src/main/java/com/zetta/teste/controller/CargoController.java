@@ -16,8 +16,8 @@ import com.zetta.teste.utils.UtilsExceptionMessage;
 
 import io.swagger.annotations.Api;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/cargos")
 @Api(tags = "Cargos")
 public class CargoController extends AbstractRestController<Cargo, CargoService>{

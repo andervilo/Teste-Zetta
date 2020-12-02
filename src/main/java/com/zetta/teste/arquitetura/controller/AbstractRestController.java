@@ -35,7 +35,7 @@ public abstract class AbstractRestController<E extends BaseEntity, S extends Gen
 	private S service;
 
 	@SuppressWarnings("unchecked")
-	@GetMapping("/")
+	@GetMapping("")
 	@ApiOperation(value = "Obter Lista.")
 	@Override
 	public ResponseEntity<?> listAll(Pageable pageable) {
@@ -56,7 +56,7 @@ public abstract class AbstractRestController<E extends BaseEntity, S extends Gen
 	}
 
 	@SuppressWarnings("unchecked")
-	@PostMapping("/")
+	@PostMapping("")
 	@ApiOperation(value = "Criar.")
 	@Override
 	public ResponseEntity<E> create(@Valid @RequestBody E object) {

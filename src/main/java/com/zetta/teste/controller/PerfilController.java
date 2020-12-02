@@ -15,8 +15,8 @@ import com.zetta.teste.utils.UtilsExceptionMessage;
 
 import io.swagger.annotations.Api;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/perfis-usuarios")
 @Api(tags = "Perfis de Usuários")
 public class PerfilController extends AbstractRestController<Perfil, PerfilService>{

@@ -37,8 +37,8 @@ import com.zetta.teste.utils.UtilsExceptionMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/usuarios")
 @Api(tags = "Usuários")
 public class UsuarioController implements IRestController<UsuarioInputDTO> {
