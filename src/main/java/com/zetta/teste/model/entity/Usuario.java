@@ -3,6 +3,7 @@ package com.zetta.teste.model.entity;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -45,8 +46,10 @@ public class Usuario extends Pessoa {
 		return perfis;
 	}
 
-	public void setPerfis(List<Perfil> perfis) {
-		this.perfis = perfis;
+	public void setPerfis(List<Perfil> perfis) {		
+		this.perfis = perfis.stream().filter((Perfil perfil)->{
+			return !this.perfis.contains(perfil);
+		}).collect(Collectors.toList());
 	}
 
 	public LocalDate getDataCadastro() {

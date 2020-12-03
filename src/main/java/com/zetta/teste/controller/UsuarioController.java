@@ -100,8 +100,9 @@ public class UsuarioController implements IRestController<UsuarioInputDTO> {
 		Usuario usuario = mapper.map(usuarioInputDTO, Usuario.class);
 
 		usuario.setId(usuarioToUpdate.getId());
+		
 
-		usuario.getPerfis().addAll(usuarioToUpdate.getPerfis());
+//		usuario.getPerfis().addAll(usuarioToUpdate.getPerfis());
 
 		usuario.setDataCadastro(usuarioToUpdate.getDataCadastro());
 
